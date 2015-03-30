@@ -2,8 +2,20 @@
 set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
 
 makehook() {
-  if [[ -e "Makefile" ]] && grep -q "^$1:" Makefile; then
-    echo "------> Triggering: make $1"
-    make $1
-  fi
+  IMAGE=$1
+  HOOK=$2
+
+  COMMAND=$(cat <<EOF
+    if [[ -e "Makefile" ]] && grep -q "^$HOOK:" Makefile; then
+      echo "------> Triggering: make $HOOK"
+      make $HOOK
+      echo "------> Triggered: make $HOOK"
+    fi
+EOF
+)
+
+  id=$(docker run -d $IMAGE -e HOOK=$HOOK /exec "$COMMAND")
+  docker attach $id
+  test "$(docker wait $id)" -eq 0
+  docker commit $id $IMAGE > /dev/null
 }
