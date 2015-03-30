@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -eo pipefail; [[ $DOKKU_TRACE ]] && set -x
+
+makehook() {
+  if [[ -e "Makefile" ]] && grep -q "^$1:" Makefile; then
+    echo "------> Triggering: make $1"
+    make $1
+  fi
+}
