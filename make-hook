@@ -5,17 +5,17 @@ makehook() {
   IMAGE=$1
   HOOK=$2
 
-  COMMAND=$(cat <<EOF
-    [[ -e "Makefile" ]] \
-&& grep -q "^$HOOK:" Makefile \
-&& echo "------> Triggering: make $HOOK" \
-&& make $HOOK \
-&& echo "------> Triggered: make $HOOK"
-EOF
-)
+  id=$(docker run -d $IMAGE /bin/bash -c "test -f app/Makefile && grep -q "^$HOOK:" app/Makefile")
 
-  id=$(docker run -d $IMAGE -e HOOK=$HOOK /exec "$COMMAND")
+  # Check for Makefile and $HOOK
+  if [ $(docker wait $id) -ne 0 ]; then
+    exit 0
+  fi
+
+  echo "       make-hook: triggering '$HOOK'"
+  id=$(docker run -d $IMAGE /exec make $HOOK)
   docker attach $id
   test "$(docker wait $id)" -eq 0
   docker commit $id $IMAGE > /dev/null
+  echo "       make-hook: triggered '$HOOK'"
 }
