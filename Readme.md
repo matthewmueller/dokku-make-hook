@@ -1,6 +1,6 @@
 # Dokku Make Hook
 
-Hook into dokku plugins from your Makefile. Supported on dokku `0.3.15`.
+Hook into dokku plugins from your Makefile. Supported on dokku `>= 0.3.15`.
 
 ## Installation
 
