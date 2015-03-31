@@ -6,11 +6,11 @@ makehook() {
   HOOK=$2
 
   COMMAND=$(cat <<EOF
-    if [[ -e "Makefile" ]] && grep -q "^$HOOK:" Makefile; then
-      echo "------> Triggering: make $HOOK"
-      make $HOOK
-      echo "------> Triggered: make $HOOK"
-    fi
+    [[ -e "Makefile" ]] \
+&& grep -q "^$HOOK:" Makefile \
+&& echo "------> Triggering: make $HOOK" \
+&& make $HOOK \
+&& echo "------> Triggered: make $HOOK"
 EOF
 )
 
