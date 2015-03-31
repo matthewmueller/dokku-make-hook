@@ -17,7 +17,7 @@ production:
 dokku.post-build-buildstep:
   duo-bundle app.{js,css}
 
-dokku.pre-deploy
+dokku.post-deploy:
   slack "deploying!"
 ```
 
