@@ -33,6 +33,6 @@ You can find what each of the events do here: http://progrium.viewdocs.io/dokku/
     - pre-release-buildstep
     - pre-release-dockerfile
 
-> Accepint PRs for the other events. From my testing, it seemed that
+> Accepting PRs for the other events. From my testing, it seemed that
 the other plugin events modified state, which would break the build process in
 unexpected ways
