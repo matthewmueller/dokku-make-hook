@@ -12,13 +12,13 @@ Log into your server and run:
 
 ```make
 production:
-  NODE_ENV=production node app.js
+  @NODE_ENV=production node app.js
 
 dokku.post-build-buildstep:
-  duo-bundle app.{js,css}
+  @duo-bundle app.{js,css}
 
 dokku.post-deploy:
-  slack "deploying!"
+  @slack "deploying!"
 ```
 
 ## Event list
